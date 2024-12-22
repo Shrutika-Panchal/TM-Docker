@@ -6,12 +6,12 @@ pipeline {
         FRONTEND_IMAGE = 'travelmemory-frontend'
         BACKEND_IMAGE = 'travelmemory-backend'
         REGISTRY = 'docker.io'
+        DOCKERHUB_USERNAME = 'shrutikapanchal'  // Set your Docker Hub username here
     }
 
     stages {
         stage('Clone Repository') {
             steps {
-                // Explicitly specify the 'main' branch for checkout
                 git branch: 'main', url: 'https://github.com/Shrutika-Panchal/TM-Docker.git'
             }
         }
@@ -38,7 +38,6 @@ pipeline {
 
         stage('Login to Docker Hub') {
             steps {
-                // Use credentials binding to inject Docker Hub credentials
                 withCredentials([usernamePassword(credentialsId: 'Docker', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
                     // Docker login command using credentials
                     sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin'
@@ -59,7 +58,6 @@ pipeline {
         stage('Deploy to Kubernetes') {
             steps {
                 script {
-                    // Deploy to Kubernetes (minikube) using the deployment and service YAML files
                     sh 'kubectl apply -f ./K8s/frontend-deployment.yaml'
                     sh 'kubectl apply -f ./K8s/frontend-service.yaml'
                     sh 'kubectl apply -f ./K8s/backend-deployment.yaml'
@@ -71,7 +69,6 @@ pipeline {
         stage('Verify Deployment') {
             steps {
                 script {
-                    // Check the status of the deployments and services
                     sh 'kubectl get pods'
                     sh 'kubectl get svc'
                 }
@@ -81,7 +78,6 @@ pipeline {
 
     post {
         always {
-            // Clean up any temporary files or containers that were used
             sh 'docker system prune -f'
         }
         success {
