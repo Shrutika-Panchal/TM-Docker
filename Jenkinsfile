@@ -85,4 +85,10 @@ pipeline {
             sh 'docker system prune -f'
         }
         success {
-            echo "Pipeline succ
+            echo "Pipeline succeeded! The app has been successfully deployed to Kubernetes."
+        }
+        failure {
+            echo "Pipeline failed! Please check the logs for more details."
+        }
+    }
+}
