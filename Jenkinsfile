@@ -58,6 +58,7 @@ pipeline {
         stage('Deploy to Kubernetes') {
             steps {
                 script {
+                    sh 'minikube delete'
                     sh 'minikube start'
                     sh 'minikube status'
                     sh 'kubectl apply -f ./K8s/frontend-deployment.yaml'
