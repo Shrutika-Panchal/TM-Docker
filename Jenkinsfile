@@ -58,6 +58,7 @@ pipeline {
         stage('Deploy to Kubernetes') {
             steps {
                 script {
+                    sh 'minikube status'
                     sh 'kubectl apply -f ./K8s/frontend-deployment.yaml'
                     sh 'kubectl apply -f ./K8s/frontend-service.yaml'
                     sh 'kubectl apply -f ./K8s/backend-deployment.yaml'
