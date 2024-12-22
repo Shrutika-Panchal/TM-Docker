@@ -1,0 +1,39 @@
+services:
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "3000:3000"  # Exposing React app on port 3000
+    depends_on:
+      - backend
+    networks:
+      - mern-network
+
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "3001:3001"  # Exposing backend API on port 5000
+    environment:
+      - MONGO_URI=mongodb+srv://Shrutika-Panchal:shrutika@shrutikacluster.g1ht5l3.mongodb.net/TM-docker  # MongoDB URI
+      - PORT=3001  # Port for the backend API
+    depends_on:
+      - mongo
+    networks:
+      - mern-network
+
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - mern-network
+
+networks:
+  mern-network:
+    driver: bridge
+
+volumes:
+  mongo_data:
+    driver: local
