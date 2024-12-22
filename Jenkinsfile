@@ -11,7 +11,8 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                git 'https://github.com/Shrutika-Panchal/TM-Docker.git'
+                // Explicitly specify the 'main' branch for checkout
+                git branch: 'main', url: 'https://github.com/Shrutika-Panchal/TM-Docker.git'
             }
         }
 
@@ -84,10 +85,4 @@ pipeline {
             sh 'docker system prune -f'
         }
         success {
-            echo "Pipeline succeeded! The app has been successfully deployed to Kubernetes."
-        }
-        failure {
-            echo "Pipeline failed! Please check the logs for more details."
-        }
-    }
-}
+            echo "Pipeline succ
