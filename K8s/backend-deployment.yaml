@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: travelmemory-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: travelmemory-backend
+  template:
+    metadata:
+      labels:
+        app: travelmemory-backend
+    spec:
+      containers:
+        - name: backend
+          image: shrutikapanchal/travelmemory-backend:latest
+          ports:
+            - containerPort: 3001
+          env:
+            - name: MONGO_URI
+              value: "mongodb+srv://Shrutika-Panchal:shrutika@shrutikacluster.g1ht5l3.mongodb.net/TM-docker"
